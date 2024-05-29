@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_client" model="ir.sequence">
+            <field name="name">Reference</field>
+            <field name="code">wisdom.client</field>
+            <field name="prefix">CLNT</field>
+            <field name="padding">7</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_employe" model="ir.sequence">
+            <field name="name">Reference</field>
+            <field name="code">wisdom.employe</field>
+            <field name="prefix">WIS</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_planification" model="ir.sequence">
+            <field name="name">Reference</field>
+            <field name="code">wisdom.planification</field>
+            <field name="prefix">Plan</field>
+            <field name="padding">7</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_planification_entreprise" model="ir.sequence">
+            <field name="name">Reference</field>
+            <field name="code">wisdom.planificationemp</field>
+            <field name="prefix">Plan</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_achat" model="ir.sequence">
+            <field name="name">Reference</field>
+            <field name="code">wisdom.achat</field>
+            <field name="prefix">Facture</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

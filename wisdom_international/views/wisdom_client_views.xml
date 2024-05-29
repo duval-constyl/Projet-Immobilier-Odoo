@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="wisdom_client_view_tree" model="ir.ui.view">
+        <field name="name">wisdom.client.view.tree</field>
+        <field name="model">wisdom.client</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="surname"/>
+                <field name="date_naissance"/>
+                <field name="lieu_naissance"/>
+                <field name="num_cni"/>
+                <field name="mail"/>
+                <field name="telephone"/>
+                <field name="adresse"/>
+                <field name="country"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wisdom_client_search" model="ir.ui.view">
+            <field name="name">wisdom.client.view.search</field>
+            <field name="model">wisdom.client</field>
+            <field name="arch" type="xml">
+                <search string="Nom client">
+                    <field name="reference"/>
+                    <field name="name"/>
+                    <field name="surname"/>
+                    <field name="lieu"/>
+                    <field name="num_cni"/>
+                    <field name="state" invisible="1"/>
+                    <field name="somme_activation"/>
+                    <!--   add filter by (grouper par)  -->
+                    <separator/>
+                        <filter string="Planifier" name="state" domain="[('state', '=', ['planifier', 'valider'])]"/>
+                        <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+
+                    <!--   add group by (grouper par)  -->
+                    <group expand="1" string="Group By">
+                        <filter string="Localité" name="lieu" domain="[]" context="{'group_by': 'localite'}"/>
+                    </group>
+                </search>
+            </field>
+    </record>
+
+     <record id="wisdom_client_view_kanban" model="ir.ui.view">
+        <field name="name">wisdom.client.view.kanban</field>
+        <field name="model">wisdom.client</field>
+        <field name="arch" type="xml">
+             <kanban class="o_kanban_mobile" sample="1">
+                <field name="reference"/>
+                <field name="name"/>
+                 <field name="surname"/>
+                <field name="mail"/>
+                <field name="telephone"/>
+                <field name="adresse"/>
+                 <field name="country"/>
+                  <field name="num_cni"/>
+                 <field name="date_enregistrement"/>
+                 <field name="recommandation"/>
+                 <field name="date_naissance"/>
+                 <field name="lieu_naissance"/>
+                 <field name="activity_state"/>
+                 <field name="color" />
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)}  oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                 <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
+                                    <span class="fa fa-ellipsis-v"/>
+                                 </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_tags_section" />
+                                <ul>
+                                    <li>Reference: <field name="reference" /></li>
+                                    <li>Nom: <field name="name" /></li>
+                                    <li>Adresse: <field name="adresse" /></li>
+                                    <li>Mail: <field name="mail" /></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <field name="activity_ids" widget="kanban_activity"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="wisdom_client_view_form" model="ir.ui.view">
+        <field name="name">wisdom.client.view.form</field>
+        <field name="model">wisdom.client</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button id="button_valider" name="action_valider" string="Valider" states="planifier"
+                    class="btn-primary" type="object"/>
+                    <button id="button_planifier" name="action_planifier" string="Planifier" states="encour"
+                    class="btn-primary" type="object"/>
+                    <button id="button_telephone" name="action_telephone" string="Ecrire au client" states="valider,planifier"
+                     class="btn-primary" type="object" icon="fa-whatsapp"/>
+                    <button id="button_encour" name="action_encour" string="Pas encore planifier" states="planifier"
+                     type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="valider,planifier"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference" readonly="1" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                        </h1>
+                        <field name="active" invisible="1"/>
+                        <h1>
+                            <field name="name" placeholder="Nom Client" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                        </h1>
+                    </div>
+                    <group>
+                       <group>
+                            <field name="surname" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                            <field name="date_naissance" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                            <field name="lieu_naissance" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                            <field name="mail" widget="email" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                            <field name="telephone" widget="phone" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                        </group>
+                        <group>
+                            <field name="num_cni" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                            <field name="adresse" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                            <field name="country" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                            <field name="date_enregistrement" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                            <field name="recommandation" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                            <page string="Descente" attrs="{'invisible': [('state', 'not in', ['planifier', 'valider'])]}">
+                                <group column="2">
+                                    <group colspan="1">
+                                        <field name="somme_activation" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                                        <field name="lieu" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                                        <field name="localite" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                                        <field name="superficie" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                                        <field name="vehicule" attrs="{'readonly': [('state', '=', 'valider')]}"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                    </notebook>
+                </sheet>
+
+                 <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+     <record id="wisdom_client_action" model="ir.actions.act_window">
+        <field name="name">Client</field>
+        <field name="res_model">wisdom.client</field>
+        <field name="view_mode">kanban,form,tree,search</field>
+        <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Ajoutez un nouveau client
+              </p>
+        </field>
+    </record>
+
+    <menuitem name="Wisdom"
+              id="wisdom_base_menu"/>
+
+    <menuitem name="Utilisateur"
+              id="wisdom_user_menu"
+              parent="wisdom_base_menu"
+              sequence="20"/>
+
+    <menuitem name="Client"
+              id="wisdom_client_menu"
+              parent="wisdom_user_menu"
+              sequence="10"
+              action="wisdom_client_action"/>
+</odoo>

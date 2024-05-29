@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+         <record id="wisdom_clientplan_view_tree" model="ir.ui.view">
+        <field name="name">wisdom.clientplan.view.tree</field>
+        <field name="model">wisdom.clientplan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="client_id"/>
+                <field name="name"/>
+                <field name="surname"/>
+                <field name="num_cni"/>
+                <field name="telephone"/>
+                <field name="vehicule"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wisdom_clientplan_view_form" model="ir.ui.view">
+            <field name="name">wisdom.clientplan.view.form</field>
+            <field name="model">wisdom.clientplan</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="client_id"/>
+                                <field name="name"/>
+                                <field name="telephone"/>
+                            </group>
+                            <group>
+                                <field name="num_cni"/>
+                                <field name="surname"/>
+                                <field name="vehicule"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+
+     <record id="wisdom_employeplan_view_tree" model="ir.ui.view">
+        <field name="name">wisdom.employeplan.view.tree</field>
+        <field name="model">wisdom.employeplan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="employe_id"/>
+                <field name="name"/>
+                <field name="surnames"/>
+                <field name="telephones"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wisdom_employeplan_view_form" model="ir.ui.view">
+            <field name="name">wisdom.employeplan.view.form</field>
+            <field name="model">wisdom.employeplan</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employe_id"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="surnames"/>
+                                <field name="telephones"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+    <record id="wisdom_planificationemp_tree" model="ir.ui.view">
+        <field name="name">wisdom.planificationemp.view.tree</field>
+        <field name="model">wisdom.planificationemp</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="heure_depart"/>
+                <field name="lieu"/>
+                <field name="localite"/>
+                <field name="total"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="planificationemp_view_kanban" model="ir.ui.view">
+        <field name="name">planificationemp.view.kanban</field>
+        <field name="model">wisdom.planificationemp</field>
+        <field name="arch" type="xml">
+             <kanban class="o_kanban_mobile" sample="1" default_group_by="state">
+                <field name="reference"/>
+                <field name="heure_depart"/>
+                <field name="lieu"/>
+                <field name="localite"/>
+                <field name="total"/>
+                <field name="id"/>
+                <field name="activity_state"/>
+                <field name="color" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div  t-attf-class="#{kanban_color(record.color.raw_value)}  oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                 <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
+                                    <span class="fa fa-ellipsis-v"/>
+                                 </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_tags_section" />
+                                <ul>
+                                    <li>Reference: <field name="reference" /></li>
+                                    <li>Heure de Depart: <field name="heure_depart" /></li>
+                                    <li>Lieu de regroupement: <field name="lieu" /></li>
+                                    <li>Localité: <field name="localite" /></li>
+                                    <li>Total: <field name="total"/></li>
+                                </ul>
+                            </div>
+                             <progressbar field="state" colors='{"brouillon": "danger", "encour": "warning", "realiser": "success"}'/>
+                            <div>
+                                <field name="activity_ids" widget="kanban_activity"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="planificationemp_view_form" model="ir.ui.view">
+            <field name="name">wisdom.planificationemp.view.form</field>
+            <field name="model">wisdom.planificationemp</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                            <button id="button_encour" name="action_encour" string="Sur le terrain" states="verifier"
+                            class="btn-primary" type="object"/>
+                            <button id="button_realiser" name="action_realiser" string="Réaliser" states="verifier,encour"
+                            class="btn-primary" type="object"/>
+                            <button id="button_verifier" name="action_verifier" string="Verifier" states="brouillon,annuler"
+                            class="btn-primary" type="object"/>
+                            <button id="button_brouillon" name="action_brouillon" string="Brouillon" states="annuler"
+                            class="btn-primary" type="object"/>
+                            <button id="button_annuler" name="action_annuler" string="Annuler" states="brouillon,verifier,encour"
+                             type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="realiser,encour,verifier,brouillon,annuler"/>
+                    </header>
+                    <sheet>
+<!--                        <div class="oe_button_box" name="button_box">-->
+<!--                             <button name="action_livraison_move" class="oe_stat_button" icon="fa-truck" type="object">-->
+<!--                                <field string="Livraison" name="livraison" widget="statinfo"/>-->
+<!--                            </button>-->
+<!--                            <button class="oe_stat_button" type="object" name="compte_total"-->
+<!--                                icon="fa-money">-->
+<!--                                <field string="Compte Total" name="total_count" widget="statinfo"/>-->
+<!--                            </button>-->
+
+<!--                        </div>-->
+<!--                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>-->
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <div class="oe_title">
+                          <h1>
+                              <field name="reference" readonly="1"/>
+                          </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="heure_depart"/>
+                                <field name="lieu"/>
+                                <field name="localite"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="active" invisible="1"/>
+                            </group>
+                            <group colspan="1" string="Besoin">
+                                <field name="palette_deau"/>
+                                <field name="prix_unitaire"/>
+                                <field name="frais_transport"/>
+                                <field name="location_voiture"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Clients planifier pour la descente">
+                                <field name="clientplan_ids" widget="section_and_note_one2many" mode="tree" >
+                                    <form>
+                                        <field name="client_id"/>
+                                        <field name="name"/>
+                                        <field name="surname"/>
+                                        <field name="num_cni"/>
+                                        <field name="telephone"/>
+                                        <field name="vehicule"/>
+                                    </form>
+                                    <tree editable="bottom">
+                                        <field name="client_id"/>
+                                        <field name="name"/>
+                                        <field name="surname"/>
+                                        <field name="num_cni"/>
+                                        <field name="telephone"/>
+                                        <field name="vehicule"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="L'equipe WISDOM">
+                                 <field name="planficationemp_ids"
+                                        widget="section_and_note_one2many"
+                                        mode="tree">
+                                     <form>
+                                         <field name="employe_id"/>
+                                         <field name="name"/>
+                                         <field name="surnames"/>
+                                         <field name="telephones"/>
+                                     </form>
+                                     <tree editable="bottom">
+                                         <field name="employe_id"/>
+                                         <field name="name"/>
+                                         <field name="surnames"/>
+                                         <field name="telephones"/>
+                                     </tree>
+                                 </field>
+                            </page>
+                        </notebook>
+
+                        <group name="note_group"  col="6" class="mt-2 mt-md-0">
+                            <group colspan="4">
+                                <field name="remarque" nolabel="1" placeholder="Rémarque..."/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="frais_total">
+                                <field name="location_voiture"/>
+                                <field name="frais_transport"/>
+                                <field name="total_rafrechissement"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total"/>
+                                </div>
+                                <field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" decoration-bf="1"/>
+                            </group>
+                            <div class="oe_clear"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_
+                        followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+    </record>
+
+    <record id="wisdom_planificationemp_search" model="ir.ui.view">
+            <field name="name">wisdom.planificationemp.view.search</field>
+            <field name="model">wisdom.planificationemp</field>
+            <field name="arch" type="xml">
+                <search string="Nom client">
+                    <field name="reference"/>
+                    <field name="lieu"/>
+                    <field name="heure_depart"/>
+                    <!--   add filter by (grouper par)  -->
+                    <separator/>
+                        <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+
+                    <!--   add group by (grouper par)  -->
+                    <group expand="1" string="Group By">
+                        <filter string="Localité" name="localite" domain="[]" context="{'group_by': 'localite'}"/>
+                        <!-- <filter string="Country" name="Country" domain="[]" context="{'group_by':'country'}"/>                         -->
+                    </group>
+
+                </search>
+            </field>
+    </record>
+
+    <record id="view_planification_calendar" model="ir.ui.view">
+        <field name="model">wisdom.planificationemp</field>
+        <field name="arch" type="xml">
+            <calendar date_start="heure_depart" >
+                <field name="heure_depart"/>
+                <field name="lieu"/>
+                <field name="clientplan_ids"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="wisdom_planificationemp_action" model="ir.actions.act_window">
+        <field name="name">Planification Descente</field>
+        <field name="res_model">wisdom.planificationemp</field>
+        <field name="view_mode">kanban,tree,form,search,calendar</field>
+        <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Effectuez vos planifications ici
+              </p>
+        </field>
+    </record>
+
+    <menuitem name="Wisdom"
+              id="wisdom_base_menu"/>
+
+
+    <menuitem name="Planification Descente"
+              id="wisdom_planification_entre_menu"
+              parent="wisdom_base_menu"
+              sequence="30"
+              action="wisdom_planificationemp_action"/>
+
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+          <record id="wisdom1" model="wisdom.employe">
+                <field name="name">Tom</field>
+                <field name="surnames">Spere</field>
+                <field name="mail">tom@gmail.com</field>
+                <field name="country" ref="base.us"/>
+                <field name="telephones">691445263</field>
+                <field name="adresse">Bassong</field>
+                <field name="fonction">Stagaire</field>
+                <field name="num_cni">LT0001187</field>
+                <field name="ufile" type="base64" file="wisdom_international/static/img/log1.png"/>
+          </record>
+          <record id="wisdom2" model="wisdom.employe">
+                <field name="name">Jordan</field>
+                <field name="surnames">Karlton</field>
+                <field name="mail">jordan@gmail.com</field>
+                <field name="country" ref="base.us"/>
+                <field name="telephones">691478263</field>
+                <field name="adresse">Ndokoti</field>
+                <field name="fonction">Secretaire</field>
+                <field name="num_cni">LT0001127</field>
+                <field name="ufile" type="base64" file="wisdom_international/static/img/log2.png"/>
+          </record>
+          <record id="wisdom3" model="wisdom.employe">
+                <field name="name">Taff</field>
+                <field name="surnames">Vivian</field>
+                <field name="mail">taff@gmail.com</field>
+                <field name="country" ref="base.us"/>
+                <field name="telephones">699475263</field>
+                <field name="adresse">Akwa</field>
+                <field name="fonction">Charger des descentes</field>
+                <field name="num_cni">LT0001247</field>
+                <field name="ufile" type="base64" file="wisdom_international/static/img/log3.png"/>
+          </record>
+          <record id="wisdom4" model="wisdom.employe">
+                <field name="name">Steve</field>
+                <field name="surnames">Fameni</field>
+                <field name="mail">steve@gmail.com</field>
+                <field name="country" ref="base.us"/>
+                <field name="telephones">691475743</field>
+                <field name="adresse">Logpom</field>
+                <field name="fonction">Gestionnaire</field>
+                <field name="num_cni">LT0001147</field>
+                <field name="ufile" type="base64" file="wisdom_international/static/img/log4.png"/>
+          </record>
+          <record id="wisdom5" model="wisdom.employe">
+                <field name="name">Albert</field>
+                <field name="surnames">Kana</field>
+                <field name="mail">albert@gmail.com</field>
+                <field name="country" ref="base.us"/>
+                <field name="telephones">691474663</field>
+                <field name="adresse">Kotto</field>
+                <field name="fonction">Stagaire</field>
+                <field name="num_cni">LT0000147</field>
+                <field name="ufile" type="base64" file="wisdom_international/static/img/log5.png"/>
+          </record>
+    </data>
+</odoo>

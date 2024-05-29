@@ -1,0 +1,25 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_achat" model="mail.template">
+            <field name="name">Achat: Envoyer par mail</field>
+            <field name="model_id" ref="wisdom_international.model_wisdom_achat"/>
+            <field name="email_from">${object.user_id.email_formatted |safe}</field>
+            <field name="email_to">${object.client_ids.mail |safe}</field>
+            <field name="subject">Card D'achat(Ref ${object.reference})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Cher  ${object.client_ids.name}
+                        <br /><br />
+                        Ce ci est la livraison ${object.reference}
+                        <br /><br />
+                        N'hesitez pas de nous contacter en cas de problème.
+                    </p>
+                </div>
+            </field>
+<!--            <field name="report_template" ref="wisdom_international.report_wisdom_achat_id_detail"/>-->
+<!--            <field name="report_name">wisdom_international.report_wisdom_planification_id_detail</field>-->
+        </record>
+    </data>
+</odoo>

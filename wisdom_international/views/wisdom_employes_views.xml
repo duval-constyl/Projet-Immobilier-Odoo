@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="wisdom_employe_view_tree" model="ir.ui.view">
+        <field name="name">wisdom.employe.view.tree</field>
+        <field name="model">wisdom.employe</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="surnames"/>
+                <field name="mail"/>
+                <field name="telephones"/>
+                <field name="fonction"/>
+                <field name="country"/>
+                <field name="adresse"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wisdom_employe_view_kanban" model="ir.ui.view">
+        <field name="name">wisdom.employe.view.kanban</field>
+        <field name="model">wisdom.employe</field>
+        <field name="arch" type="xml">
+             <kanban class="o_kanban_mobile" sample="1">
+                <field name="reference"/>
+                <field name="name"/>
+                 <field name="surnames"/>
+                <field name="mail"/>
+                <field name="telephones"/>
+                <field name="adresse"/>
+                <field name="country"/>
+                 <field name="fonction"/>
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('wisdom.employe','ufile', record.id.raw_value)"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_tags_section" />
+                                <ul>
+                                    <li>Reference: <field name="reference" /></li>
+                                    <li>Nom: <field name="name" /></li>
+                                    <li>Adresse: <field name="adresse" /></li>
+                                    <li>Pays: <field name="country" /></li>
+                                    <li>Mail: <field name="mail" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="wisdom_employe_view_form" model="ir.ui.view">
+        <field name="name">wisdom.employe.view.form</field>
+        <field name="model">wisdom.employe</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button id="button_fonction" name="action_fonction" string="En Fonction" states="repos"
+                    class="btn-primary" type="object"/>
+                     <button id="button_repos" name="action_repos" string="En Repos" states="annuler"
+                    class="btn-primary" type="object"/>
+                     <button id="button_annuler" name="action_annuler" string="Annuler" states="repos,fonction"
+                     type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="repos,fonction"/>
+                </header>
+                <sheet>
+                    <field name="ufile" string="" widget="image"  col="120"  width="120"
+                           class="oe_avatar" options="{&quot;preview_image&quot;:&quot;image&quot;}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference" readonly="1"/>
+                        </h1>
+                        <h1>
+                            <field name="name" placeholder="Nom D'employé"/>
+                        </h1>
+                    </div>
+                    <group>
+                       <group>
+                            <field name="surnames"/>
+                            <field name="mail" widget="email"/>
+                            <field name="telephones" widget="phone"/>
+                            <field name="adresse"/>
+                        </group>
+                        <group>
+<!--                            <field name="password"/>-->
+<!--                            <field name="confirm_password"/>-->
+                            <field name="country"/>
+                            <field name="num_cni"/>
+                            <field name="fonction"/>
+                        </group>
+                    </group>
+                </sheet>
+
+                 <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+     <record id="wisdom_employe_view_search" model="ir.ui.view">
+        <field name="name">wisdom.employe.view.search</field>
+        <field name="model">wisdom.employe</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="surnames"/>
+                <field name="adresse"/>
+                <field name="country"/>
+                <field name="fonction"/>
+
+                 <!--   add filter by (grouper par)  -->
+                <separator/>
+                    <filter string="En fonction" name="state" domain="[('state', '=', 'fonction')]"/>
+                    <filter string="En respos" name="state" domain="[('state', '=', 'repos')]"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="wisdom_employe_action" model="ir.actions.act_window">
+        <field name="name">Employé(e)</field>
+        <field name="res_model">wisdom.employe</field>
+        <field name="view_mode">kanban,form,tree</field>
+        <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Ajoutez un nouveau Employé
+              </p>
+        </field>
+    </record>
+
+    <menuitem name="Wisdom"
+              id="wisdom_base_menu"/>
+
+    <menuitem name="Utilisateur"
+              id="wisdom_user_menu"
+              parent="wisdom_base_menu"
+              sequence="20"/>
+
+    <menuitem name="Employé(e)"
+              id="wisdom_employe_menu"
+              parent="wisdom_user_menu"
+              sequence="20"
+              action="wisdom_employe_action"/>
+
+</odoo>

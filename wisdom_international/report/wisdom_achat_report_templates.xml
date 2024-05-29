@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <template id="report_wisdom_achat_id_detail">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div name="solde">
+                            <div class="col-xs-4 pull-right">
+                                 <div>
+                                    <strong>Nom:  </strong>
+                                    <span t-field="o.client_ids.name"/>
+                                 </div>
+                                 <div>
+                                    <strong>Prénom:  </strong>
+                                    <span t-field="o.client_ids.surname"/>
+                                 </div>
+                                 <div>
+                                    <strong>Téléphone:  </strong>
+                                    <span t-field="o.client_ids.telephone"/>
+                                 </div>
+                                <div>
+                                    <strong>Numero CNI:  </strong>
+                                    <span t-field="o.client_ids.num_cni"/>
+                                 </div>
+                                <div>
+                                    <strong>Email:  </strong>
+                                    <span t-field="o.client_ids.mail"/>
+                                 </div>
+                            </div>
+                        </div>
+
+                        <div style="padding-top:55px;"></div>
+
+                        <h2>
+                            <span t-field="o.reference"/>
+                        </h2>
+                        <div>
+                            <strong style="font-weight: bold !important,font-size: 16px !important">Localité: </strong>
+                            <span t-field="o.localite"/>
+                        </div>
+                        <div>
+                            <strong style="font-weight: bold !important,font-size: 16px !important">Info sur le terrain: </strong>
+                            <span t-field="o.info_terrain"/>
+                        </div>
+
+                        <div style="padding-top:10px;"></div>
+
+                         <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="background-color:blue !important;color:#FFF !important;">SUPERFICIE(m²)</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;">PRIX UNITE</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;">PRIX SUPERFICIE </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.superficie"/>
+                                            </td>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.superficie_unit"/>
+                                            </td>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.superficie_prix"/>
+                                            </td>
+                                        </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="padding-top:10px;"></div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="background-color:blue !important;color:#FFF !important;">TAUX REMISE</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;">PRIX REMISE</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;">PRIX D'ACHAT APRES REMISE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.rabais"/>
+                                            </td>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.rabais_total"/>
+                                            </td>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.superficie_prix_total"/>
+                                            </td>
+                                        </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="padding-top:10px;"></div>
+
+                         <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="background-color:blue !important;color:#FFF !important;">TAUX DE COMMISSION(%)</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;">PRIX COMMISSION</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.frais_commision"  t-field-options='{"widget": "percentage"}'/>
+                                            </td>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.frais_commision_total"/>
+                                            </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="padding-top:10px;"></div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="background-color:blue !important;color:#FFF !important;">OUVERTURE DOSSIER</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;">FRAIS DOSSIER TECHNIQUE</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.ouverture_dossier"/>
+                                            </td>
+                                            <td style="border: 1px !important; border-style: solid !important; border-color: #fff !important;">
+                                                <div t-field="o.frais_dossier"/>
+                                            </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+
+                        <div name="solde">
+                                <div class="col-xs-4 pull-right">
+                                    <table  class="table table-condensed">
+                                        <tr class="border-black" style=" background-color: blue ; color:#fff !important;">
+                                            <td>
+                                                <strong style="color:#fff !important;">Prix total:  </strong>
+                                            </td>
+                                            <td class="text-right" style="color:#fff">
+                                                <span t-field="o.total"
+                                                    t-field-options='{"widget": "monetary"}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                        </div>
+
+                        <div style="padding-top:30px;"></div>
+                        <div>
+                            <strong>Arretée la présente facture à la somme de  </strong>
+                            <span t-field="o.condition"/>
+                        </div>
+
+                        <div style="padding-top:70px;"></div>
+
+                        <div class="col-xs-4 pull-right">
+                             <strong>Fait le  </strong>
+                            <span t-field="o.date"/>
+                        </div>
+
+                        <div style="padding-top:200px;"></div>
+
+                        <div class="col-xs-1 text-center">
+                             <strong>It's Possible</strong>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+     </template>
+</odoo>

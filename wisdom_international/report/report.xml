@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_wisdom_achat" model="ir.actions.report">
+            <field name="name">Facture de l'achat</field>
+            <field name="model">wisdom.achat</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">wisdom_international.report_wisdom_achat_id_detail</field>
+            <field name="report_file">wisdom_international.report_wisdom_achat_id_detail</field>
+            <field name="binding_model_id" ref="model_wisdom_achat"/>
+            <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_wisdom_planification" model="ir.actions.report">
+            <field name="name">Planification week-end</field>
+            <field name="model">wisdom.planificationemp</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">wisdom_international.report_wisdom_planification_id_detail</field>
+            <field name="report_file">wisdom_international.report_wisdom_planification_id_detail</field>
+            <field name="binding_model_id" ref="model_wisdom_planificationemp"/>
+            <field name="binding_type">report</field>
+    </record>
+</odoo>

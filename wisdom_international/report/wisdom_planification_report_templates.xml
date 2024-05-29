@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <template id="report_wisdom_planification_id_detail">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            <span t-field="o.heure_depart"/>
+                        </h2>
+                        <div>
+                            <strong style="font-weight: bold !important">Lieu de regroupement: </strong>
+                            <span t-field="o.lieu"/>
+                        </div>
+
+                        <div style="padding-top:10px;"></div>
+
+                        <label style="justify-content:center !important; align-items: center !important;font-size: 20px !important; font-weight: bold !important;">Clients planifier pour la descente</label>
+                        <table class="table" string="Clients planifier pour la descente">
+                            <thead>
+                                <tr>
+                                    <th style="background-color:blue !important;color:#FFF !important;border: 1px !important; ">Nom</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;border: 1px !important; ">Prénom</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;border: 1px !important; ">Téléphone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="clients" t-value="o.clientplan_ids"/>
+                                <tr t-foreach="clients" t-as="client" t-att-class="'bg-200 font-weight-bold o_line_section'">
+                                    <td>
+                                        <span t-field="client.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="client.surname"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="client.telephone"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                             <div style="padding-top:20px;"></div>
+
+                        <label class="text-center" style="justify-content:center !important; align-items: center !important;font-size: 20px !important; font-weight: bold !important;">L'equipe WISDOM</label>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="background-color:blue !important;color:#FFF !important;border: 1px !important; ">Nom</th>
+                                    <th style="background-color:blue !important;color:#FFF !important;border: 1px !important; ">Téléphone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="equipes" t-value="o.planficationemp_ids"/>
+                                <tr t-foreach="equipes" t-as="equipe" t-att-class="'bg-200 font-weight-bold o_line_section'">
+                                    <td>
+                                        <span t-field="equipe.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="equipe.telephones"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                         <div style="padding-top:20px;"></div>
+
+                        <label style="font-size: 20px !important; font-weight: bold !important;text-decoration: underline !important">LES BESOINS DE LA DESCENTE</label>
+                        <div>
+                            <strong>Prix rafraichissement:  </strong>
+                            <span t-field="o.total_rafrechissement"/>
+                        </div>
+                        <div>
+                            <strong>Location voiture:  </strong>
+                            <span t-field="o.location_voiture"/>
+                        </div>
+                        <div>
+                            <strong>Frais transport équipe WISDOM:  </strong>
+                            <span t-field="o.frais_transport"/>
+                        </div>
+
+                        <div name="solde">
+                                <div class="col-xs-4 pull-right">
+                                    <table  class="table table-condensed">
+                                        <tr class="border-black" style=" background-color: blue ; color:#fff !important;">
+                                            <td>
+                                                <strong style="color:#fff !important;">Prix total:  </strong>
+                                            </td>
+                                            <td class="text-right" style="color:#fff">
+                                                <span t-field="o.total"
+                                                    t-field-options='{"widget": "monetary"}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

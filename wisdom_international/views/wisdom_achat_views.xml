@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="wisdom_achat_tree" model="ir.ui.view">
+        <field name="name">wisdom.achat.view.tree</field>
+        <field name="model">wisdom.achat</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="telephone"/>
+                <field name="date"/>
+                <field name="superficie"/>
+                <field name="localite"/>
+                <field name="info_terrain"/>
+                <field name="state"
+                    decoration-success="state == 'payer'"
+                    decoration-info="state == 'avance'"
+                    decoration-danger="state == 'brouillon'"
+                    decoration-warning="state == 'verifier'"
+                widget="badge"/>
+                <field name="progress" widget="progressbar" />
+                <field name="total"/>
+<!--                <field name="achat_count"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="wisdom_achat_search" model="ir.ui.view">
+            <field name="name">wisdom.achat.view.search</field>
+            <field name="model">wisdom.achat</field>
+            <field name="arch" type="xml">
+                <search string="Nom client">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <!--   add filter by (grouper par)  -->
+                    <separator/>
+                        <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+
+                    <!--   add group by (grouper par)  -->
+                    <group expand="1" string="Group By">
+                        <filter string="Localité" name="localite" domain="[]" context="{'group_by': 'localite'}"/>
+                        <!-- <filter string="Country" name="Country" domain="[]" context="{'group_by':'country'}"/>                         -->
+                    </group>
+
+                </search>
+            </field>
+    </record>
+
+     <record id="achat_view_form" model="ir.ui.view">
+            <field name="name">wisdom.achat.view.form</field>
+            <field name="model">wisdom.achat</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                            <button id="button_payer" name="action_payer" string="Payer Content" states="verifier,mail,telephone,avance"
+                            class="btn-primary" type="object"/>
+                            <button id="button_avance" name="action_avance" string="Montant Avancé" states="verifier,mail,telephone"
+                            class="btn-primary" type="object"/>
+                            <button id="button_telephone" name="action_telephone" string="Envoyer pars message" states="verifier,payer,avance,mail"
+                            class="btn-primary" type="object" icon="fa-whatsapp"/>
+                            <button id="button_mail" name="action_mail" string="Envoyer par mail" states="verifier,payer,avance,telephone"
+                            class="btn-primary" type="object" icon="fa-envelope"/>
+                            <button id="button_verifier" name="action_verifier" string="Verifier" states="brouillon,annuler"
+                            class="btn-primary" type="object"/>
+                            <button id="button_brouillon" name="action_brouillon" string="Brouillon" states="annuler"
+                            class="btn-primary" type="object"/>
+                             <button id="button_annuler" name="action_annuler" string="Annuler" states="brouillon,verifier"
+                             type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="payer,avance,telephone,mail,verifier,brouillon,annuler"/>
+                    </header>
+                    <sheet>
+<!--                        <div class="oe_button_box" name="button_box">-->
+<!--                             <button name="action_livraison_move" class="oe_stat_button" icon="fa-truck" type="object">-->
+<!--                                <field string="Livraison" name="livraison" widget="statinfo"/>-->
+<!--                            </button>-->
+<!--                            <button class="oe_stat_button" type="object" name="compte_total"-->
+<!--                                icon="fa-money">-->
+<!--                                <field string="Compte Total" name="total_count" widget="statinfo"/>-->
+<!--                            </button>-->
+
+<!--                        </div>-->
+<!--                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>-->
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <widget name="web_ribbon" title="Payer Content" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'payer')]}"/>
+                        <widget name="web_ribbon" title="Montant Avancé" bg_color="bg-primary" attrs="{'invisible': [('state', '!=', 'avance')]}"/>
+                        <div class="oe_title">
+                          <h1>
+                              <field name="reference" readonly="1"/>
+                              <field name="active" invisible="1"/>
+                          </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="localite" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="info_terrain" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="superficie" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="ouverture_dossier" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="rabais" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="frais_commision" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="frais_dossier" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="currency_id" invisible="1"/>
+<!--                                <field name="product_uom_id"/>-->
+
+                            </group>
+                            <group string="Données Client">
+                                <field name="client_ids" options="{'no_create_edit': True, 'no_create': True}" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="name" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="surname" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="telephone" widget="phone" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="mail" widget="email" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="num_cni" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Autre Information">
+                                <group column="2">
+                                     <group colspan="1" string="Rédiger pars:">
+                                         <field name="employe_ids" options="{'no_create_edit': True, 'no_create': True}" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                         <field name="surnames" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                         <field name="telephones" widget="phone" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                    </group>
+                                    <group colspan="1">
+                                        <field name="superficie_unit" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                        <field name="superficie_prix" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                        <field name="rabais_total" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                        <field name="superficie_prix_total" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                        <field name="frais_commision_total" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Dossier">
+                                <group column="2">
+                                    <group colspan="1" string="Dossier Technique">
+                                        <field name="date_tec"/>
+                                        <field name="donnee_tec" filename="doc_name"/>
+                                        <field name="doc_name" invisible="1"/>
+                                    </group>
+                                     <group colspan="1" string="Titre Foncier">
+                                        <field name="date_foncier"/>
+                                        <field name="donnee_foncier" filename="doc_names"/>
+                                         <field name="doc_names" invisible="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                        <group name="note_group"  col="6" class="mt-2 mt-md-0">
+                            <group colspan="4">
+                                <field name="condition" nolabel="1" placeholder="Arretée la présente facture à la somme de ..." widget="text" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="frais_total">
+<!--                                <field name="superficie"/>-->
+<!--                                <field name="location_voiture" attrs="{'invisible': [('vehicule', '=', 'oui')]}"/>-->
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total"/>
+                                </div>
+                                <field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" decoration-bf="1" attrs="{'readonly': [('state', '=', 'payer')]}"/>
+                                <field name="montant_payer" attrs="{'invisible': [('state', 'not in', ['avance'])]}" />
+
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label" attrs="{'invisible': [('state', 'not in', ['avance'])]}">
+                                    <label for="reste_payer" attrs="{'invisible': [('state', 'not in', ['avance'])]}"/>
+                                </div>
+                                <field name="reste_payer" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" decoration-bf="1" attrs="{'invisible': [('state', 'not in', ['avance'])]}"/>
+
+                            </group>
+                            <div class="oe_clear"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_
+                        followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+    </record>
+
+    <record id="achat_view_kanban" model="ir.ui.view">
+        <field name="name">achat.view.kanban</field>
+        <field name="model">wisdom.achat</field>
+        <field name="arch" type="xml">
+             <kanban class="o_kanban_mobile" sample="1" default_group_by="state">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="telephone"/>
+                <field name="date"/>
+                <field name="superficie"/>
+                <field name="localite"/>
+                <field name="total"/>
+                <field name="id"/>
+                 <field name="activity_state"/>
+                 <field name="color" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div  t-attf-class="#{kanban_color(record.color.raw_value)}  oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                 <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
+                                    <span class="fa fa-ellipsis-v"/>
+                                 </a>
+                                <div class="dropdown-menu" role="menu">
+                                <t t-if="widget.editable">
+                                    <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                </t>
+                                <t t-if="widget.deletable">
+                                    <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                </t>
+                                <ul class="oe_kanban_colorpicker" data-field="color"/>
+                            </div>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_tags_section" />
+                                <ul>
+                                    <li>Reference: <field name="reference" /></li>
+                                    <li>Beneficier: <field name="name" /></li>
+                                    <li>Localité: <field name="localite" /></li>
+                                    <li>date: <field name="date" /></li>
+                                    <li>Total: <field name="total"/></li>
+                                </ul>
+                            </div>
+                            <progressbar field="state" colors='{"brouillon": "danger", "verifier": "warning", "avance": "primary", "payer": "success"}' widget="progressbar"/>
+                            <div>
+                                <field name="activity_ids" widget="kanban_activity"/>
+                            </div>
+
+                        </div>
+
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="view_wisdom_achat_graph" model="ir.ui.view">
+        <field name="model">wisdom.achat</field>
+        <field name="arch" type="xml">
+             <graph type="pie">
+                <field name="localite"/>
+                 <field name="name"/>
+             </graph>
+        </field>
+    </record>
+
+    <record id="view_wisdom_achat_pivot" model="ir.ui.view">
+         <field name="model">wisdom.achat</field>
+         <field name="arch" type="xml">
+             <pivot>
+                 <field name="name" type="row"/>
+                 <field name="localite" type="col"/>
+                 <field name="superficie" type="col"/>
+             </pivot>
+         </field>
+    </record>
+
+    <record id="wisdom_achat_action" model="ir.actions.act_window">
+        <field name="name">Achat</field>
+        <field name="res_model">wisdom.achat</field>
+        <field name="view_mode">kanban,tree,form,search,graph,pivot</field>
+        <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Effectuez vos achats de terrain ici
+              </p>
+        </field>
+    </record>
+
+    <menuitem name="Wisdom"
+              id="wisdom_base_menu"/>
+
+    <menuitem name="Achat"
+              id="wisdom_achat_menu"
+              parent="wisdom_base_menu"
+              sequence="20"
+              action="wisdom_achat_action"/>
+
+</odoo>

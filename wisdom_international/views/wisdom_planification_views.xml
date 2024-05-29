@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="wisdom_planification_tree" model="ir.ui.view">
+        <field name="name">wisdom.planification.view.tree</field>
+        <field name="model">wisdom.planification</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="heure_depart"/>
+                <field name="lieu"/>
+                <field name="superficie"/>
+                <field name="frais_transport"/>
+                <field name="total_rafrechissement"/>
+                <field name="somme_activation"/>
+                <field name="total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wisdom_planification_search" model="ir.ui.view">
+            <field name="name">wisdom.planification.view.search</field>
+            <field name="model">wisdom.planification</field>
+            <field name="arch" type="xml">
+                <search string="Nom client">
+                    <field name="surname"/>
+                    <field name="heure_depart"/>
+                    <field name="lieu"/>
+                    <field name="somme_activation"/>
+                    <!--   add filter by (grouper par)  -->
+                    <separator/>
+                        <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+
+                    <!--   add group by (grouper par)  -->
+                    <group expand="1" string="Group By">
+                        <filter string="Lieu de regroupement" name="lieu" domain="[]" context="{'group_by': 'lieu'}"/>
+                        <!-- <filter string="Country" name="Country" domain="[]" context="{'group_by':'country'}"/>                         -->
+                    </group>
+
+                </search>
+            </field>
+    </record>
+
+    <record id="planification_view_kanban" model="ir.ui.view">
+        <field name="name">planification.view.kanban</field>
+        <field name="model">wisdom.planification</field>
+        <field name="arch" type="xml">
+             <kanban class="o_kanban_mobile" sample="1">
+                <field name="reference"/>
+                <field name="heure_depart"/>
+                <field name="lieu"/>
+                <field name="surname"/>
+                <field name="telephone"/>
+                <field name="superficie"/>
+                <field name="frais_transport"/>
+                <field name="total_rafrechissement"/>
+                <field name="somme_activation"/>
+                <field name="total"/>
+                <field name="id"/>
+                <field name="activity_state"/>
+                 <field name="color" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)}  oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                 <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
+                                    <span class="fa fa-ellipsis-v"/>
+                                 </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_tags_section" />
+                                <ul>
+                                    <li>Reference: <field name="reference" /></li>
+                                    <li>Heure de Depart: <field name="heure_depart" /></li>
+                                    <li>Lieu de regroupement: <field name="lieu" /></li>
+                                    <li>Client: <field name="surname" /></li>
+                                    <li>Telephone: <field name="telephone"/></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <field name="activity_ids" widget="kanban_activity"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="planification_view_form" model="ir.ui.view">
+            <field name="name">wisdom.planification.view.form</field>
+            <field name="model">wisdom.planification</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                            <button id="button_encour" name="action_encour" string="Pas encore planifier" states="verifier"
+                            class="btn-primary" type="object"/>
+                            <button id="button_planifier" name="action_planifier" string="Planifier" states="verifier,encour"
+                            class="btn-primary" type="object"/>
+                            <button id="button_telephone" name="action_telephone" string="Envoyer pars SMS" states="planifier"
+                            class="btn-primary" type="object"/>
+                            <button id="button_mail" name="action_mail" string="Envoyer par mail" states="planifier"
+                            class="btn-primary" type="object"/>
+                            <button id="button_verifier" name="action_verifier" string="Verifier" states="brouillon,annuler"
+                            class="btn-primary" type="object"/>
+                            <button id="button_brouillon" name="action_brouillon" string="Brouillon" states="annuler"
+                            class="btn-primary" type="object"/>
+                            <button id="button_annuler" name="action_annuler" string="Annuler" states="brouillon,verifier,encour,mail,telephone,planifier"
+                             type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="mail,telephone,planifier,encour,verifier,brouillon,annuler"/>
+                    </header>
+                    <sheet>
+<!--                        <div class="oe_button_box" name="button_box">-->
+<!--                             <button name="action_livraison_move" class="oe_stat_button" icon="fa-truck" type="object">-->
+<!--                                <field string="Livraison" name="livraison" widget="statinfo"/>-->
+<!--                            </button>-->
+<!--                            <button class="oe_stat_button" type="object" name="compte_total"-->
+<!--                                icon="fa-money">-->
+<!--                                <field string="Compte Total" name="total_count" widget="statinfo"/>-->
+<!--                            </button>-->
+
+<!--                        </div>-->
+<!--                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>-->
+                         <widget name="web_ribbon" title="Payer" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'planifier')]}"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <div class="oe_title">
+                          <h1>
+                              <field name="reference" readonly="1"/>
+                          </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="heure_depart"/>
+                                <field name="lieu"/>
+                                <field name="active" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="client_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                                <field name="surname"/>
+                                <field name="telephone" widget="phone"/>
+                                <field name="mail" widget="email"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Autre Information">
+                                <group column="2">
+                                    <group colspan="1">
+                                        <field name="somme_activation"/>
+                                        <field name="localite"/>
+                                        <field name="superficie"/>
+                                        <field name="vehicule"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                        <group name="note_group"  col="6" class="mt-2 mt-md-0">
+                            <group colspan="4">
+                                <field name="remarque" nolabel="1" placeholder="Rémarque..."/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="frais_total">
+                                <field name="somme_activation"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total"/>
+                                </div>
+                                <field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" decoration-bf="1"/>
+                            </group>
+                            <div class="oe_clear"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_
+                        followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+    </record>
+
+    <record id="wisdom_planification_action" model="ir.actions.act_window">
+        <field name="name">Planification Client</field>
+        <field name="res_model">wisdom.planification</field>
+        <field name="view_mode">kanban,tree,form,search</field>
+        <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Effectuez vos planifications ici
+              </p>
+<!--            <p>-->
+<!--                With just a quick glance on the Odoo employee screen, you-->
+<!--                can easily find all the information you need for each person.-->
+<!--            </p>-->
+        </field>
+    </record>
+
+    <menuitem name="Wisdom"
+              id="wisdom_base_menu"/>
+
+    <menuitem name="Planification"
+              id="wisdom_planification_menu"
+              parent="wisdom_base_menu"
+              sequence="30"/>
+
+    <menuitem name="Planification Client"
+              id="wisdom_planification_client_menu"
+              parent="wisdom_planification_menu"
+              sequence="10"
+              action="wisdom_planification_action"/>
+
+</odoo>

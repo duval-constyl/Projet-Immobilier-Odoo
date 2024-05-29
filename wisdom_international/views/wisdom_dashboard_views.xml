@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<!--     <record id="act_graph_planifications" model="ir.actions.act_window">-->
+<!--        <field name="name">Calendrier des Planification</field>-->
+<!--        <field name="res_model">wisdom.planificationemp</field>-->
+<!--        <field name="view_mode">calendar</field>-->
+<!--        <field name="view_id" ref="wisdom_international.view_planification_calendar"/>-->
+<!--    </record>-->
+
+<!--    <record id="act_graph_achat" model="ir.actions.act_window">-->
+<!--        <field name="name">Graphique des Achats</field>-->
+<!--        <field name="res_model">wisdom.achat</field>-->
+<!--        <field name="view_mode">graph</field>-->
+<!--        <field name="view_id" ref="wisdom_international.view_wisdom_achat_graph"/>-->
+<!--    </record>-->
+
+<!--&lt;!&ndash;    <record id="act_client_list" model="ir.actions.act_window">&ndash;&gt;-->
+<!--&lt;!&ndash;        <field name="name">Client</field>&ndash;&gt;-->
+<!--&lt;!&ndash;        <field name="res_model">wisdom.client</field>&ndash;&gt;-->
+<!--&lt;!&ndash;        <field name="view_mode">tree,form</field>&ndash;&gt;-->
+<!--&lt;!&ndash;    </record>&ndash;&gt;-->
+
+<!--    <record id="dashboard_wisdom_view" model="ir.ui.view">-->
+<!--        <field name="name">Dashboard Form</field>-->
+<!--        <field name="model">board.board</field>-->
+<!--        <field name="type">form</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Dashboard">-->
+<!--                <board style="1-1">-->
+<!--                    <column>-->
+<!--&lt;!&ndash;                        <action&ndash;&gt;-->
+<!--&lt;!&ndash;                                string="Liste Client"&ndash;&gt;-->
+<!--&lt;!&ndash;                                name="%(act_client_list)d"/>&ndash;&gt;-->
+<!--                              <action-->
+<!--                                string="Chart des Achats"-->
+<!--                                name="%(wisdom_international.act_graph_achat)d"/>-->
+<!--                    </column>-->
+<!--                    <column>-->
+<!--                        <action-->
+<!--                                string="Calendrier des Planification"-->
+<!--                                name="%(wisdom_international.act_graph_planifications)d"/>-->
+
+<!--                    </column>-->
+<!--                </board>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+
+     <record id="action_wisdom_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de bord</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+<!--        <field name="view_id" ref="dashboard_wisdom_view"/>-->
+    </record>
+
+    <menuitem name="Wisdom"
+              id="wisdom_base_menu"/>
+
+    <menuitem name="Tableau de bord"
+              id="wisdom_suivi_menu"
+              parent="wisdom_base_menu"
+              sequence="1"
+              action="action_wisdom_dashboard"/>
+
+</odoo>

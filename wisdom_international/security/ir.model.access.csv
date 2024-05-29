@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+wisdom_client,wisdom.client,model_wisdom_client,,1,1,1,1
+wisdom_achat,wisdom.achat,model_wisdom_achat,,1,1,1,1
+wisdom_planification,wisdom.planification,model_wisdom_planification,,1,1,1,1
+wisdom_employe,wisdom.employe,model_wisdom_employe,,1,1,1,1
+wisdom_planificationemp,wisdom.planificationemp,model_wisdom_planificationemp,,1,1,1,1
+wisdom_employeplan,wisdom.employeplan,model_wisdom_employeplan,,1,1,1,1
+wisdom_clientplan,wisdom.clientplan,model_wisdom_clientplan,,1,1,1,1
